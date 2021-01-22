@@ -19,3 +19,16 @@ survey_skeleton<-function(df){df %>%
     select(-question_group, - research_question,-indicator_english) %>%
     select( type,name,label=question, everything())
 }
+
+
+choices_skeleton<-function(df){
+  df %>%
+    group_by(q_code) %>%
+    mutate(name=str_replace_all(choice,c("'"="")),
+           name= snakecase::to_snake_case(name)) %>%
+    ungroup() %>%
+    select(list_name=q_code,
+           name,
+           label=choice)
+
+}
